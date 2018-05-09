@@ -1,0 +1,25 @@
+.board {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.cell {
+  width: 35px;
+  height: 35px;
+  background-color: #000;
+}
+
+.pacman {
+  background-color: #fdff00;
+}
+
+.wall {
+  background-color: #0000ff;
+}
