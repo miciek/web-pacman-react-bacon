@@ -1,5 +1,6 @@
-FROM node:7.8.0
+FROM node:8.12.0
 COPY . .
 RUN npm install
-CMD npm start
-EXPOSE 3000
+RUN npm install -g serve
+CMD serve -s build
+EXPOSE 5000
