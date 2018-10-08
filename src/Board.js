@@ -9,19 +9,25 @@ export default class Board extends Component {
   static propTypes = {
     size: PropTypes.instanceOf(Vector).isRequired,
     pacMan: PropTypes.instanceOf(PacMan),
-    usableCells: PropTypes.arrayOf(PropTypes.instanceOf(Vector)).isRequired
+    usableCells: PropTypes.arrayOf(PropTypes.instanceOf(Vector)).isRequired,
+    dotCells: PropTypes.arrayOf(PropTypes.instanceOf(Vector)).isRequired
   };
 
   render() {
-    const { size, pacMan, usableCells } = this.props;
+    const { size, pacMan, usableCells, dotCells } = this.props;
     const rows = R.range(0, size.y).map(y => {
       const cells = R.range(0, size.x).map(x => {
         const pos = new Vector(x, y);
         const maybePacManStyle = {
           pacman: !R.isNil(pacMan) && pacMan.pos.equals(pos)
         };
+        const internalStyle = {
+          dot: !R.isNil(R.find(cell => cell.equals(pos))(dotCells)),
+        };
         const maybeWallStyle = { wall: R.isNil(R.find(cell => cell.equals(pos))(usableCells)) };
-        return <div key={x} className={classNames("cell", maybePacManStyle, maybeWallStyle)} />;
+        return <div key={x} className={classNames("cell", maybePacManStyle, maybeWallStyle)}>
+          <div className={classNames(internalStyle)} />
+        </div>;
       });
       return (
         <div key={y} className="row">

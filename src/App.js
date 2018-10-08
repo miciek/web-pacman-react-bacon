@@ -7,11 +7,16 @@ import Board from "./Board";
 
 export default class App extends Component {
   state = {
-    gridResponse: {}
+    gridResponse: {},
+    collectibles: []
   };
 
   fetchGameState(gameId) {
     return fetch("/backend/games/" + gameId).then(response => response.json());
+  }
+
+  fetchCollectibles(gameId) {
+    return fetch("/collectibles/" + gameId).then(response => response.json());
   }
 
   changeDirection(gameId) {
@@ -41,6 +46,10 @@ export default class App extends Component {
 
     ticks.flatMap(x => Bacon.fromPromise(this.fetchGameState(gameId))).onValue(pacManResponse => {
       this.setState({ pacMan: pacManResponse.pacMan });
+    });
+
+    ticks.flatMap(x => Bacon.fromPromise(this.fetchCollectibles(gameId))).onValue(collectibles => {
+      this.setState({ collectibles: collectibles });
     });
   }
 
@@ -76,6 +85,7 @@ export default class App extends Component {
           size={new Vector(width, height)}
           pacMan={new PacMan(new Vector(position.x, position.y), direction)}
           usableCells={R.map(cell => new Vector(cell.x, cell.y), usableCells)}
+          dotCells={R.map(cell => new Vector(cell.x, cell.y), this.state.collectibles)}
         />
       );
     }

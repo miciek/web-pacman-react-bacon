@@ -23,3 +23,12 @@
 .wall {
   background-color: #0000ff;
 }
+
+.dot {
+  position: relative;
+  background-color: red;
+  width: 5px;
+  height: 5px;
+  left: 15px;
+  top: 15px;
+}
